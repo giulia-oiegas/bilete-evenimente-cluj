@@ -4,7 +4,7 @@ class authService {
 
     private db_controller $db;
 
-    public function __construct(db_controller $db) {
+    public function __construct() {
         $this->db = new db_controller();;
     }
 
