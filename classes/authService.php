@@ -4,8 +4,8 @@ class authService {
 
     private db_controller $db;
 
-    public function __construct(db_controller $db) {
-        $this->db = $db;
+    public function __construct() {
+        $this->db = new db_controller();;
     }
 
     //Inregistreaza un utilizator nou
@@ -32,7 +32,7 @@ class authService {
         $result = $this->db->select($query, [$usernameOrEmail, $usernameOrEmail]);
 
         if (count($result) === 1) {
-            $user = new User($result[0]);
+            $user = new user($result[0]);
 
             // Verifica parola criptata
             if (password_verify($password, $user->password)) {
@@ -68,4 +68,3 @@ class authService {
         return isset($_SESSION['user_id']);
     }
 }
-?>
