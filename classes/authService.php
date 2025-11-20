@@ -5,7 +5,7 @@ class authService {
     private db_controller $db;
 
     public function __construct() {
-        $this->db = new db_controller();;
+        $this->db = new db_controller();
     }
 
     //Inregistreaza un utilizator nou
