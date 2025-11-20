@@ -1,6 +1,6 @@
 <?php
 
-// Rol de detinerea si gestionarea datelor ale unui utilizator.
+// Detinerea si gestionarea datelor ale unui utilizator
 class user {
 public int $id;
 public string $username;

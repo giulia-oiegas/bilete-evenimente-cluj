@@ -1,7 +1,6 @@
 <?php
 
-//Logica de business pentru autentificare (register, login, logout)
-class AuthService {
+class authService {
 
     private db_controller $db;
 
@@ -37,7 +36,7 @@ class AuthService {
 
             // Verifica parola criptata
             if (password_verify($password, $user->password)) {
-                // Autentificare reusita: seteaza variabilele de sesiune
+
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['username'] = $user->username;
                 $_SESSION['user_role'] = $user->role;
