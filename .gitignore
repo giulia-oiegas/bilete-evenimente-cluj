@@ -1,0 +1,16 @@
+# Dependinte
+vendor/
+node_modules/
+
+# Configuri sensibile
+.env
+config/local_*.php
+
+# IDE / editor
+.idea/
+.vscode/
+
+# Fisiere temporare / de sistem
+*.log
+.DS_Store
+Thumbs.db
