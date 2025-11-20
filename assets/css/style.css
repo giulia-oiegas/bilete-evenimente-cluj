@@ -1,1 +1,17 @@
+body {
+    background-color: floralwhite;
+    color: brown;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.hero-placeholder {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #1f2833, #0b0c10);
+    border-radius: 1rem;
+    color: #ffffff;
+}
 
