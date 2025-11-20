@@ -1,18 +1,15 @@
 <?php
-/**
- Are rolul de a detine si gestiona datele unui singur utilizator.
-*/
-class User {
-// Proprietatile corespund coloanelor din tabela USERS
+
+// Rol de detinerea si gestionarea datelor ale unui utilizator.
+class user {
 public int $id;
 public string $username;
 public string $email;
-public string $password; // Parola hash-uita
+public string $password; // Parola hash
 public string $role;
 
-/**
-Constructor pentru a initializa un obiect User.
-*/
+
+//Constructor pentru a initializa un obiect user
 public function __construct(array $data) {
 $this->id = $data['id'] ?? 0;
 $this->username = $data['username'] ?? '';
@@ -21,9 +18,9 @@ $this->password = $data['password'] ?? '';
 $this->role = $data['role'] ?? 'user';
 }
 
-    /**
-      Metoda ajutatoare pentru a verifica daca utilizatorul este admin.
-     */
+
+//Verifica daca utilizatorul este admin
+
     public function isAdmin(): bool {
         return $this->role === 'admin';
     }
