@@ -11,7 +11,11 @@ class productRepository
         $this->db = new db_controller();
     }
 
-    public function getFilteredProducts(?int $category_id = null, ?string $search_term = null): array
+    public function getFilteredProducts(
+        ?int $category_id = null,
+        ?string $search_term = null,
+        ?string $sort = null
+    ): array
     {
         //pornim de la o interogare de baza care selecteaza produsele si numele categoriei lor
         $query = "SELECT p.*, c.name AS category_name
@@ -27,14 +31,31 @@ class productRepository
 
         if ($search_term !== null && $search_term !== '') {
             $search_term = '%' . $search_term . '%';
-
             // Căutare după titlu sau locație (venue)
             $query .= " AND (p.name LIKE ? OR p.venue LIKE ?)";
             $params[] = $search_term;
             $params[] = $search_term;
         }
 
-        $query .= " ORDER BY p.event_date ASC";
+        //alegem coloana de sort pe baza unui whitelist, ca sa nu facem sql injection
+        $orderBy = "p.event_date ASC"; //default
+
+        switch ($sort) {
+            case 'date_desc':
+                $orderBy = "p.event_date DESC";
+                break;
+            case 'price_asc':
+                $orderBy = "p.price ASC";
+                break;
+            case 'price_desc':
+                $orderBy = "p.price DESC";
+                break;
+            case 'date_asc':
+            default:
+                $orderBy = "p.event_date ASC";
+                break;
+        }
+        $query .= " ORDER BY $orderBy";
         return $this->db->select($query, $params);
     }
     public function getAllCategories(): array {

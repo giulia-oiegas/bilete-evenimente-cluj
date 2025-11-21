@@ -5,6 +5,13 @@
 
 require_once __DIR__ . '/../config/config.php';
 
+require_once '../classes/db_controller.php';
+require_once '../classes/product_repository.php';
+require_once '../classes/cart_service.php';
+require_once '../classes/AuthService.php';
+
+session_start();
+
 $db = new db_controller();
 $productRepo = new ProductRepository();
 $eventData = null;
@@ -12,6 +19,9 @@ $pageTitle = 'Eveniment Negăsit';
 $isDateValid = false;
 $formattedDate = 'Dată Necunoscută';
 $formattedTime = '--:--';
+
+$auth = new AuthService();
+$cartService = new CartService();
 
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
@@ -27,7 +37,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 $formattedDate = $dateTime->format('l, d F Y');
                 $formattedTime = $dateTime->format('H:i');
                 $isDateValid = true; // Data este validă
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 error_log("Eroare la parsarea datei evenimentului {$id_product}: " . $e->getMessage());
 
 
@@ -45,7 +55,7 @@ if (!$eventData): ?>
     <div class="alert alert-danger text-center shadow-sm" role="alert">
         <h4 class="alert-heading">Eveniment Negăsit</h4>
         <p>Ne pare rău, evenimentul cu ID-ul specificat nu există sau nu mai este disponibil.</p>
-        <a href="home.php" class="btn btn-danger mt-3">Înapoi la Evenimente</a>
+        <a href="index.php" class="btn btn-danger mt-3">Înapoi la Evenimente</a>
     </div>
 
 <?php else:
@@ -77,7 +87,7 @@ if (!$eventData): ?>
 
                     <hr>
 
-                    //descriere
+
                     <h2 class="h4 mt-4 mb-3 text-success">Descriere</h2>
                     <p class="lead text-dark"><?php echo nl2br(htmlspecialchars($eventData['description'] ?? 'Nu este disponibilă o descriere detaliată.')); ?></p>
                 </div>
