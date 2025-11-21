@@ -66,6 +66,37 @@ if (isset($_GET['status']) && $_GET['status'] === 'added') {
 // 2. Preluarea și Calculul Totalului
 $cart_items = $cartService->getCartItems($user_id);
 
+if(empty($cart_items)) {
+    include 'header.php';
+    ?>
+    <main class="py-4">
+        <div class="container mt-4">
+            <div class="alert alert-info text-center">
+                Coșul este gol. Veți fi redirecționat automat către pagina de evenimente în câteva secunde.
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="index.php" class="btn btn-primary">
+                    Mergi acum la evenimente.
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        //dupa 8 secunde trimitem userul la index.php
+        setTimeout(function () {
+            window.location.href = 'index.php';
+        }, 8000);
+    </script>
+
+    <?php
+    include 'footer.php';
+    exit;
+}
+    ?>
+
+    <?php
 foreach ($cart_items as $item) {
     $total_amount += $item['price'] * $item['quantity']; // totalul pe linie + totalul general
 }
@@ -106,8 +137,6 @@ include 'header.php';
                 </div>
             </div>
         </div>
-    <?php else: ?>
-        <div class="alert alert-warning">Coșul este gol.</div>
     <?php endif; ?>
 </div>
 

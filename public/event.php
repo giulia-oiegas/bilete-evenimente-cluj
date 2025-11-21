@@ -37,7 +37,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 $formattedDate = $dateTime->format('l, d F Y');
                 $formattedTime = $dateTime->format('H:i');
                 $isDateValid = true; // Data este validă
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 error_log("Eroare la parsarea datei evenimentului {$id_product}: " . $e->getMessage());
                 //setare o valoare implicită
 
