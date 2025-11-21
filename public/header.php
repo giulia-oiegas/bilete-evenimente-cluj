@@ -1,22 +1,8 @@
 <?php
-//require_once '../classes/product_repository.php';
-//require_once '../classes/authService.php';
 //pornim sesiunea o singura data
 if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
-//$productRepo = new productRepository();
-//$auth = new authService();
-
-// Preluare parametri de filtrare
-//$search_term = $_GET['search'] ?? null;
-//$category_id = (isset($_GET['cat_id']) && is_numeric($_GET['cat_id'])) ? (int)$_GET['cat_id'] : null;
-
-// Folosim metoda pentru filtrare
-//$events = $productRepo->getFilteredProducts($category_id, $search_term);
-
-// Preluarea categoriilor pentru meniul de filtrare
-//$categories = $productRepo->getAllCategories();
 
 $isLoggedIn = !empty($_SESSION['user_id']);
 $userRole = $_SESSION['user_role'] ?? 'guest';
