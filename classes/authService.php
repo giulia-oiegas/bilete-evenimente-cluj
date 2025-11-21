@@ -1,5 +1,4 @@
 <?php
-
 class authService {
 
     private db_controller $db;
@@ -17,7 +16,12 @@ class authService {
 
         try {
             // Foloseste metoda 'execute' din db_controller
-            $affectedRows = $this->db->execute($query, [$username, $email, $hashedPassword, $defaultRole]);
+            $affectedRows = $this->db->execute($query, [
+                $username,
+                $email,
+                $hashedPassword,
+                $defaultRole
+            ]);
             return $affectedRows > 0;
         } catch (Exception $e) {
             // In caz de eroare (username/email duplicat)
@@ -27,6 +31,12 @@ class authService {
 
     //Autentifica un utilizator
     public function loginUser(string $usernameOrEmail, string $password): bool {
+        //pentru evitarea apelarii session_start de mai multe ori in acelasi request
+        //porneste sesiunea doar daca nu a fost deja pornita
+        if(session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $query = "SELECT id, username, email, password, role FROM users WHERE username = ? OR email = ?";
         // Foloseste metoda 'select' din db_controller
         $result = $this->db->select($query, [$usernameOrEmail, $usernameOrEmail]);
