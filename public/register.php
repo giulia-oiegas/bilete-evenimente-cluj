@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 $pageTitle = 'Înregistrare Utilizator';
 require_once 'header.php';
 
