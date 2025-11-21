@@ -55,7 +55,7 @@ if (!$eventData): ?>
     <div class="alert alert-danger text-center shadow-sm" role="alert">
         <h4 class="alert-heading">Eveniment Negăsit</h4>
         <p>Ne pare rău, evenimentul cu ID-ul specificat nu există sau nu mai este disponibil.</p>
-        <a href="home.php" class="btn btn-danger mt-3">Înapoi la Evenimente</a>
+        <a href="index.php" class="btn btn-danger mt-3">Înapoi la Evenimente</a>
     </div>
 
 <?php else:
