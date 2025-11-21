@@ -40,10 +40,22 @@ if(session_status() === PHP_SESSION_NONE){
                     </li>
 
                     <?php if(!empty($_SESSION['id'])) : ?>
-                        <li class="nav-item">
-                            <a class="btn btn-primary" href="my_account.php">Contul meu</a>
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-primary dopdown-toggle"
+                               href="#"
+                               id="accountDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false"
+                            ><?= htmlspecialchars($_SESSION['username'] ?? 'Contul meu') ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                                <li><a class="dropdown-item" href="my_account.php">Contul meu</a></li>
+                                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                            </ul>
                         </li>
                     <?php else: ?>
+                        <!--user nelogat -->
                         <li class="nav-item me-2">
                             <a class="btn btn-outline-light" href="login.php">Login</a>
                         </li>
