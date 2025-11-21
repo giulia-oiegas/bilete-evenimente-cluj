@@ -1,5 +1,6 @@
 <?php
 require_once 'db_controller.php';
+require_once 'user.php';
 class authService {
 
     private db_controller $db;
