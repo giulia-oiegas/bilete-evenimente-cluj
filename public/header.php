@@ -3,6 +3,10 @@
 if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
+
+$isLoggedIn = !empty($_SESSION['user_id']);
+$userRole = $_SESSION['user_role'] ?? 'guest';
+
 ?>
 
 <!doctype html>
@@ -21,7 +25,6 @@ if(session_status() === PHP_SESSION_NONE){
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php">Cluj Events</a>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,34 +37,16 @@ if(session_status() === PHP_SESSION_NONE){
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                 </ul>
 
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item me-2">
-                        <a class="btn btn-outline-light" href="cart.php">Cos</a>
-                    </li>
-
-                    <?php if(!empty($_SESSION['id'])) : ?>
-                        <li class="nav-item dropdown">
-                            <a class="btn btn-primary dopdown-toggle"
-                               href="#"
-                               id="accountDropdown"
-                               role="button"
-                               data-bs-toggle="dropdown"
-                               aria-expanded="false"
-                            ><?= htmlspecialchars($_SESSION['username'] ?? 'Contul meu') ?>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                <li><a class="dropdown-item" href="my_account.php">Contul meu</a></li>
-                                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                            </ul>
-                        </li>
+                <ul class="navbar-nav ms-auto">
+                    <?php if ($isLoggedIn): ?>
+                        <?php if ($userRole === 'admin'): ?>
+                            <li class="nav-item"><a class="nav-link text-warning" href="admin/events_list.php">ADMIN</a></li>
+                        <?php endif; ?>
+                        <li class="nav-item"><a class="nav-link" href="my_account.php">Contul meu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="cart.php">Coș</a></li>
+                        <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
                     <?php else: ?>
-                        <!--user nelogat -->
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-light" href="login.php">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-success" href="register.php">Register</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="login.php">Login/Register</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
