@@ -19,7 +19,7 @@ class authService {
             // Foloseste metoda 'execute' din db_controller
             $affectedRows = $this->db->execute($query, [$username, $email, $hashedPassword, $defaultRole]);
             return $affectedRows > 0;
-        } catch (Exception $e) {
+        } catch (Exception) {
             // In caz de eroare (username/email duplicat)
             return false;
         }

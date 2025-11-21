@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // inregistrare
         try {
             $db = new db_controller();
-            $authService = new AuthService($db);
+            $authService = new AuthService();
 
             if ($authService->registerUser($username, $email, $password)) {
                 $success = 'Înregistrare reușită! Vă puteți autentifica acum.';
