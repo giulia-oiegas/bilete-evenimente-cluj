@@ -40,4 +40,17 @@ class productRepository
         $query = "SELECT id_categories, name FROM CATEGORIES ORDER BY name ASC";
         return $this->db->select($query);
     }
+
+    public function getEventById(int $id_product): ?array
+    {
+        $query = "SELECT p.*, c.name AS category_name
+                  FROM PRODUCTS p
+                  JOIN CATEGORIES c ON p.category_id = c.id_categories
+                  WHERE p.id_products = ?";
+
+        $result = $this->db->select($query, [$id_product]);
+
+        // returneaza primul (si singurul) rezultat, sau null
+        return $result[0] ?? null;
+    }
 }

@@ -18,3 +18,5 @@ $classDir = __DIR__ . '/../classes/';
 require_once $classDir . 'db_controller.php';
 require_once $classDir . 'user.php';
 require_once $classDir . 'authService.php';
+require_once $classDir . 'product_repository.php';
+require_once $classDir . 'cart_service.php';
