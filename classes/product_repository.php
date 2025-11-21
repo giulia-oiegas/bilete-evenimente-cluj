@@ -4,7 +4,7 @@ require_once 'db_controller.php';
 
 class productRepository
 {
-    private db_controller $db; // <-- Proprietate  pentru a apela $this->db->select()
+    private db_controller $db; // Proprietate  pentru a apela $this->db->select()
 
     public function __construct()
     {
@@ -13,10 +13,11 @@ class productRepository
 
     public function getFilteredProducts(?int $category_id = null, ?string $search_term = null): array
     {
+        //pornim de la o interogare de baza care selecteaza produsele si numele categoriei lor
         $query = "SELECT p.*, c.name AS category_name
                 FROM PRODUCTS p
                 JOIN CATEGORIES c ON p.category_id = c.id_categories
-                WHERE 1=1";
+                WHERE 1=1"; //returneaza toate inregistrarile fara sa le filtreze
         $params = [];
 
         if ($category_id !== null) {

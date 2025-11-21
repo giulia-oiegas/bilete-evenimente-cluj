@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gazdă: 127.0.0.1:3306
--- Timp de generare: nov. 20, 2025 la 03:57 PM
--- Versiune server: 9.1.0
--- Versiune PHP: 8.3.14
+-- Host: 127.0.0.1:3306
+-- Generation Time: Nov 21, 2025 at 10:42 AM
+-- Server version: 9.1.0
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Bază de date: `ticket_shop`
+-- Database: `ticket_shop`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `categories`
+-- Table structure for table `categories`
 --
 
 DROP TABLE IF EXISTS `categories`;
@@ -37,20 +37,20 @@ CREATE TABLE IF NOT EXISTS `categories` (
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Eliminarea datelor din tabel `categories`
+-- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`id_categories`, `name`, `description`) VALUES
-(7, 'Patinaj', 'Bilete la spectacole de patinaj artistic, hochei și show-uri pe gheață.'),
-(8, 'Teatru', 'Bilete la piese de teatru clasice, contemporane și spectacole de revistă.'),
-(9, 'Concert', 'Bilete la concerte de muzică pop, rock, electronică și evenimente live majore.'),
-(10, 'Opera', 'Bilete la spectacole de operă și balet, inclusiv gale și premiere.'),
-(11, 'Fotbal', 'Bilete la meciuri de fotbal din campionatul intern și competiții internaționale.');
+(1, 'Patinaj', 'Bilete la spectacole de patinaj artistic, hochei și show-uri pe gheață.'),
+(2, 'Teatru', 'Bilete la piese de teatru clasice, contemporane și spectacole de revistă.'),
+(3, 'Concert', 'Bilete la concerte de muzică pop, rock, electronică și evenimente live majore.'),
+(4, 'Opera', 'Bilete la spectacole de operă și balet, inclusiv gale și premiere.'),
+(5, 'Fotbal', 'Bilete la meciuri de fotbal din campionatul intern și competiții internaționale.');
 
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `orders`
+-- Table structure for table `orders`
 --
 
 DROP TABLE IF EXISTS `orders`;
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Eliminarea datelor din tabel `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id_order`, `id_user`, `total_amount`, `order_status`, `stripe_transaction_id`, `created_at`) VALUES
@@ -75,7 +75,7 @@ INSERT INTO `orders` (`id_order`, `id_user`, `total_amount`, `order_status`, `st
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `order_items`
+-- Table structure for table `order_items`
 --
 
 DROP TABLE IF EXISTS `order_items`;
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `order_items` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Eliminarea datelor din tabel `order_items`
+-- Dumping data for table `order_items`
 --
 
 INSERT INTO `order_items` (`id_item`, `id_order`, `product_id`, `quantity`, `price_at_purchase`) VALUES
@@ -101,7 +101,7 @@ INSERT INTO `order_items` (`id_item`, `id_order`, `product_id`, `quantity`, `pri
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `products`
+-- Table structure for table `products`
 --
 
 DROP TABLE IF EXISTS `products`;
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Eliminarea datelor din tabel `products`
+-- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id_products`, `category_id`, `name`, `code`, `venue`, `event_date`, `available_tickets`, `price`, `description`, `image`) VALUES
@@ -134,7 +134,7 @@ INSERT INTO `products` (`id_products`, `category_id`, `name`, `code`, `venue`, `
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `tbl_cart`
+-- Table structure for table `tbl_cart`
 --
 
 DROP TABLE IF EXISTS `tbl_cart`;
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `tbl_cart` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Eliminarea datelor din tabel `tbl_cart`
+-- Dumping data for table `tbl_cart`
 --
 
 INSERT INTO `tbl_cart` (`id_cart`, `id_product`, `id_user`, `quantity`) VALUES
@@ -159,7 +159,7 @@ INSERT INTO `tbl_cart` (`id_cart`, `id_product`, `id_user`, `quantity`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `users`
+-- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -171,14 +171,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Eliminarea datelor din tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
-(1, 'admin', '', '$2y$10$wN.9.3X9lR/t/lZ8b.d3iO1.3S7jA2g.j4dO9mX9lR/wB4dM7g.j4', '');
+(1, 'admin', '', '$2y$10$wN.9.3X9lR/t/lZ8b.d3iO1.3S7jA2g.j4dO9mX9lR/wB4dM7g.j4', ''),
+(2, 'irina', 'i@yahoo.com', '$2y$10$Sxwg8XL2zhAeQyfvDLF2QuYV1VineuJCDPNYCs/WVrHHMK8u/UmB2', 'user');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
