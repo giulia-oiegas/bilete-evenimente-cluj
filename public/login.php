@@ -1,9 +1,11 @@
 
+
 <?php
 // /public/login.php
 require_once '../classes/authService.php';
 session_start();
-include 'header.php';
+
+
 $auth = new authService();
 $error = '';
 $success = '';
@@ -28,16 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Date de autentificare invalide."; // Eroare
     }
 }
+include 'header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Bilete Cluj</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-</head>
-<body>
+
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
@@ -65,6 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-include 'footer.php';
+
 </body>
 </html>
+
+<?php include 'footer.php';?>
