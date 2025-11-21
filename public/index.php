@@ -18,8 +18,8 @@ $events = $productRepo->getFilteredProducts($category_id, $search_term);
 // Preluarea categoriilor pentru meniul de filtrare
 $categories = $productRepo->getAllCategories();
 
-$isLoggedIn = $auth->isLoggedIn();
-$userRole = $_SESSION['role'] ?? 'guest';
+$isLoggedIn = $auth->isUserLoggedIn();
+$userRole = $_SESSION['user_role'] ?? 'guest';
 ?>
 <!DOCTYPE html>
 <html lang="ro">
@@ -46,11 +46,11 @@ $userRole = $_SESSION['role'] ?? 'guest';
                     <?php if ($userRole === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link text-warning" href="admin/events_list.php">ADMIN</a></li>
                     <?php endif; ?>
-                    <li class="nav-item"><a class="nav-link" href="my_account.php">Contul meu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cart.php">Coș</a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/public/my_account.php">Contul meu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/public/cart.php">Coș</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/public/logout.php">Logout</a></li>
                 <?php else: ?>
-                    <li class="nav-item"><a class="nav-link" href="login.php">Login/Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/public/login.php">Login/Register</a></li>
                 <?php endif; ?>
             </ul>
         </div>

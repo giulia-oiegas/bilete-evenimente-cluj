@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../config/config.php';
 $pageTitle = 'Înregistrare Utilizator';
 require_once 'header.php';
+require_once '../classes/AuthService.php';
+
 
 $error = '';
 $success = '';
@@ -24,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // inregistrare
         try {
-            $db = new db_controller();
+            //$db = new db_controller();
             $authService = new AuthService();
 
             if ($authService->registerUser($username, $email, $password)) {
