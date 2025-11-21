@@ -29,7 +29,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 $isDateValid = true; // Data este validă
             } catch (\Exception $e) {
                 error_log("Eroare la parsarea datei evenimentului {$id_product}: " . $e->getMessage());
-                //setare o valoare implicită
+
 
             }
         }
