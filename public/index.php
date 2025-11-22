@@ -106,11 +106,6 @@ include 'header.php';
                         <?php foreach ($events as $event): ?>
                             <div class="col">
                                 <div class="card h-100 shadow-sm">
-                                    <img
-                                            src="<?= htmlspecialchars($event['image'] ?? '/assets/placeholder.jpg'); ?>"
-                                            class="card-img-top"
-                                            alt="Imagine eveniment"
-                                    >
                                     <div class="card-body">
                                         <h5 class="card-title"><?= htmlspecialchars($event['name']); ?></h5>
                                         <p class="card-text mb-1">

@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config/config.php';
 require_once '../classes/db_controller.php';
 require_once '../classes/product_repository.php';
 require_once '../classes/cart_service.php';
-require_once '../classes/AuthService.php';
+require_once '../classes/authService.php';
 
 session_start();
 
@@ -20,8 +20,8 @@ $isDateValid = false;
 $formattedDate = 'Dată Necunoscută';
 $formattedTime = '--:--';
 
-$auth = new AuthService();
-$cartService = new CartService();
+$auth = new authService();
+$cartService = new cartService();
 
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {

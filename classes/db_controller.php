@@ -34,4 +34,9 @@ class db_controller {
     public function lastInsertId(): string {
         return $this->conn->lastInsertId();
     }
+
+    //pentru tranzactiile din order_service
+    public function getConnection(): PDO {
+        return $this->conn;
+    }
 }
