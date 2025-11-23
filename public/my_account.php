@@ -11,7 +11,7 @@ if(!$auth->isUserLoggedIn()) {
     exit();
 }
 
-$userId = (int)$_SESSION['userId'];
+$userId = (int)$_SESSION['user_id'];
 $orderService = new orderService();
 
 $orders = $orderService->getOrdersByUser($userId);
