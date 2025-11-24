@@ -4,11 +4,14 @@
 require_once '../classes/AuthService.php';
 require_once '../classes/cart_service.php';
 require_once '../classes/order_service.php';
+require_once '../classes/stripe_payment_service.php';
+
 session_start();
 
 $auth = new authService();
 $cartService = new cartService();
 $orderService = new orderService();
+$stripeService = new stripe_payment_service();
 $message = '';
 
 if (!$auth->isUserLoggedIn()) {
@@ -31,16 +34,31 @@ foreach ($cart_items as $item) {
 }
 
 // 2. Logica procesării comenzii (FĂRĂ PLATĂ)
-if (isset($_POST['confirm_order'])) {
-    // Apelează createOrderFromCart()
+if (isset($_POST['pay_with_card'])) {
+
+    // 2. Creează Comanda in DB cu status 'pending'
     $id_order = $orderService->createOrderFromCart($id_user);
 
     if ($id_order > 0) {
-        // Redirecționare către o pagină de confirmare simplă
-        header("Location: payment_success.php?order_id=" . $id_order . "&status=pending");
-        exit;
+        try {
+            // 3. Apelează Serviciul Stripe pentru a obține URL-ul de plată
+            $stripe_url = $stripeService->createCheckoutSession($id_order, $cart_items);
+
+            // 4. Redirecționează utilizatorul la Stripe
+            header("Location: " . $stripe_url);
+            exit;
+
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            // Eroare specifica Stripe
+            $message = "<div class='alert alert-danger'>Eroare Stripe: " . htmlspecialchars($e->getMessage()) . "</div>";
+            $orderService->updateOrderStatus($id_order, 'cancelled');
+
+        } catch (Exception $e) {
+            // Alte erori (ex: rețea, configurare)
+            $message = "<div class='alert alert-danger'>Eroare necunoscută: " . htmlspecialchars($e->getMessage()) . "</div>";
+        }
     } else {
-        $message = "<div class='alert alert-danger'>Comanda nu a putut fi plasată. Vă rugăm încercați din nou.</div>";
+        $message = "<div class='alert alert-danger'>Comanda nu a putut fi plasată. Vă rugăm încercați din nou. (Verificați stocul)</div>";
     }
 }
 ?>
