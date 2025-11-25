@@ -4,7 +4,7 @@ require_once 'db_controller.php';
 
 class productRepository
 {
-    private db_controller $db; // Proprietate  pentru a apela $this->db->select()
+    private db_controller $db;
 
     public function __construct()
     {
@@ -12,7 +12,7 @@ class productRepository
     }
 
     public function getFilteredProducts(
-        ?int $category_id = null,
+        ?int    $category_id = null,
         ?string $search_term = null,
         ?string $sort = null
     ): array
@@ -58,7 +58,9 @@ class productRepository
         $query .= " ORDER BY $orderBy";
         return $this->db->select($query, $params);
     }
-    public function getAllCategories(): array {
+
+    public function getAllCategories(): array
+    {
         $query = "SELECT id_categories, name FROM CATEGORIES ORDER BY name ASC";
         return $this->db->select($query);
     }
@@ -74,5 +76,53 @@ class productRepository
 
         // returneaza primul (si singurul) rezultat, sau null
         return $result[0] ?? null;
+    }
+
+    //metoda de crearea
+    public function createProduct(array $data): bool
+    {
+        $query = "INSERT INTO PRODUCTS (category_id, name, code, venue, event_date, available_tickets, price, description, image) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        return $this->db->execute($query, [
+                $data['category_id'],
+                $data['name'],
+                $data['code'],
+                $data['venue'],
+                $data['event_date'],
+                $data['available_tickets'],
+                $data['price'],
+                $data['description'],
+                $data['image']
+            ]) > 0;
+    }
+
+// Metoda pentru Modificare /update
+    public function updateProduct(int $id_products, array $data): bool
+    {
+        // Utilizează setarea coloanei 'id_products' pentru WHERE
+        $query = "UPDATE PRODUCTS 
+              SET category_id=?, name=?, code=?, venue=?, event_date=?, available_tickets=?, price=?, description=?, image=? 
+              WHERE id_products=?";
+
+        return $this->db->execute($query, [
+                $data['category_id'],
+                $data['name'],
+                $data['code'],
+                $data['venue'],
+                $data['event_date'],
+                $data['available_tickets'],
+                $data['price'],
+                $data['description'],
+                $data['image'],
+                $id_products
+            ]) > 0;
+    }
+
+// Metoda pentru Ștergere
+    public function deleteProduct(int $id_products): bool
+    {
+        $query = "DELETE FROM PRODUCTS WHERE id_products = ? LIMIT 1";
+        return $this->db->execute($query, [$id_products]) > 0;
     }
 }
