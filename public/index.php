@@ -26,27 +26,30 @@ include 'header.php';
 <main class="py-4">
     <div class="container mt-4">
         <!-- HERO + search -->
-        <div class="bg-light p-5 rounded mb-4">
-            <h1 class="display-6 text-center mb-3">Caută evenimente în Cluj-Napoca</h1>
-            <form method="get" class="d-flex justify-content-center">
+        <section class="hero-section mb-4">
+            <h1 class="hero-title">Caută evenimente în Cluj-Napoca</h1>
+            <p class="hero-subtitle">
+                Teatru, operă, concerte, meciuri și spectacole pentru toate gusturile.
+            </p>
+            <form method="get" class="hero-search d-flex justify-content-center mt-4">
                 <input
                         type="text"
                         name="q"
-                        class="form-control w-50 me-2"
+                        class="form-control hero-search-input me-2"
                         placeholder="exemplu: teatru, opera, concert..."
                         value="<?= htmlspecialchars($search_term ?? '') ?>"
                 >
                 <?php if ($category_id !== null): ?>
                     <input type="hidden" name="category" value="<?= (int)$category_id ?>">
                 <?php endif; ?>
-                <button type="submit" class="btn btn-primary">Caută</button>
+                <button type="submit" class="hero-search-button"><strong>Caută</strong></button>
             </form>
-        </div>
+        </section>
 
         <!-- TAB-URI categorii -->
         <ul class="nav nav-pills justify-content-center mb-4">
-            <li class="nav-item">
-                <a class="nav-link <?= $category_id === null ? 'active' : '' ?>" href="index.php">
+            <li class="all-events-li nav-item">
+                <a class="all-events-btn btn nav-link <?= $category_id === null ? 'active' : '' ?>" href="index.php">
                     Toate evenimentele:
                 </a>
             </li>
@@ -54,7 +57,7 @@ include 'header.php';
             <?php foreach ($categories as $cat): ?>
                 <li class="nav-item">
                     <a
-                            class="nav-link <?= ($category_id === (int)$cat['id_categories']) ? 'active' : '' ?>"
+                            class="tab-names nav-link <?= ($category_id === (int)$cat['id_categories']) ? 'active' : '' ?>"
                             href="index.php?category=<?= (int)$cat['id_categories'] ?>"
                     >
                         <?= htmlspecialchars($cat['name']) ?>
@@ -67,8 +70,8 @@ include 'header.php';
         <div class="row">
             <!-- Coloană FILTRE -->
             <div class="col-lg-3 mb-4">
-                <div class="card p-3 mb-3">
-                    <h5>Filtre</h5>
+                <div class="card filters-card p-3">
+                    <h5 class="mb-3">Filtre</h5>
 
                     <form method="get">
                         <!-- păstrăm căutarea curentă -->
@@ -100,19 +103,23 @@ include 'header.php';
             </div>
 
             <!-- Coloană EVENIMENTE -->
-            <div class="col-lg-9">
+            <section class="col-lg-9">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <?php if (!empty($events)): ?>
                         <?php foreach ($events as $event): ?>
                             <div class="col">
-                                <div class="card h-100 shadow-sm">
+                                <article class="card event-card h-100 shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= htmlspecialchars($event['name']); ?></h5>
-                                        <p class="card-text mb-1">
-                                            *Locație:* <?= htmlspecialchars($event['venue']); ?><br>
-                                            *Data:* <?= date('d M Y, H:i', strtotime($event['event_date'])); ?>
+                                        <h5 class="card-title event-card-title"><?= htmlspecialchars($event['name']); ?></h5>
+                                        <p class="card-text event-meta mb-2">
+                                            <span class="d-block">
+                                                <strong>Locație</strong>: <?= htmlspecialchars($event['venue']); ?><br>
+                                            </span>
+                                            <span class="d-block">
+                                                <strong>Data</strong>: <?= date('d M Y, H:i', strtotime($event['event_date'])); ?>
+                                            </span>
                                         </p>
-                                        <p class="fs-4 fw-bold text-success">
+                                        <p class="event-price fs-5 fw-semibold mb-3">
                                             Preț: <?= number_format($event['price'], 2); ?> RON
                                         </p>
                                         <a
@@ -122,16 +129,16 @@ include 'header.php';
                                             Vezi detalii
                                         </a>
                                     </div>
-                                </div>
+                                </article>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="col-12">
-                            <p class="alert alert-info">Nu au fost găsite evenimente.</p>
+                            <p class="alert alert-info mb-0">Nu au fost găsite evenimente.</p>
                         </div>
                     <?php endif; ?>
                 </div>
-            </div>
+            </section>
         </div> <!-- row -->
     </div> <!-- container -->
 </main>
