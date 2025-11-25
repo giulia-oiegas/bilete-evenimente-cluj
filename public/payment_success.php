@@ -3,28 +3,44 @@
 // Actualizeaza statusul comenzii in DB
 
 require_once __DIR__ . '/../config/config.php';
-$db = new db_controller();
-$orderService = new orderService($db);
+require_once '../classes/mail_service.php';
+require_once '../classes/order_service.php';
+require_once '../classes/authService.php';
 
-$pageTitle = 'Plată Reușită';
-$orderId = $_GET['order_id'] ?? null;
-$message = "Comanda a fost procesată cu succes!";
+session_start();
+
+$auth = new authService();
+$orderService = new orderService();
+$mailService = new mailService();
+
+$pageTitle = 'Plată reușită';
+$orderId = isset($_GET['orderId']) ? (int)$_GET['orderId'] : 0;
+$message = "";
 $statusUpdateSuccess = false;
 
 // Verifică dacă utilizatorul este logat
-if (!AuthService::isUserLoggedIn()) {
+if (!$auth->isUserLoggedIn()) {
     $error = "Eroare: Sesiunea a expirat. Vă rugăm să vă autentificați.";
+    header("Location: login.php");
+    exit;
 }
 
-if ($orderId) {
+$userId = (int)$_SESSION['user_id'];
+
+if ($orderId > 0) {
     try {
-        $db = new db_controller();
-        $orderService = new OrderService($db);
         // Actualizează starea comenzii la 'paid'
         $statusUpdateSuccess = $orderService->updateOrderStatus($orderId, 'paid');
 
         if ($statusUpdateSuccess) {
             $message = "Plata a fost confirmată. Îți mulțumim pentru comanda #$orderId!";
+
+            $orderData = $orderService->getOrderDetails($orderId);
+
+            if($orderData) {
+                $userEmail = $orderData['user_email'];
+                $mailService->sendOrderConfirmation($userEmail, $orderData);
+            }
         } else {
             $message = "Plata a fost confirmată, dar nu am putut actualiza starea comenzii #$orderId în baza de date. Vă rugăm contactați suportul.";
         }
@@ -57,7 +73,7 @@ require_once 'header.php';
         <div class="alert alert-warning shadow-lg p-5" role="alert">
             <i class="bi bi-exclamation-triangle-fill display-3 text-yellow-600"></i>
             <h1 class="mt-3 text-4xl font-bold">Atenție!</h1>
-            <p class="lead text-lg mt-2"><?php echo $message; ?></p>
+            <p class="lead text-lg mt-2"><?= htmlspecialchars($message) ?></p>
             <p class="mb-4 text-gray-700">Dacă ați fost taxat, dar starea nu s-a actualizat, vă rugăm contactați serviciul de suport.</p>
             <a href="index.php" class="btn btn-warning btn-lg transition duration-300 hover:scale-105">Înapoi la prima pagină</a>
         </div>
