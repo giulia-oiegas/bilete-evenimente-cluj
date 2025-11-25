@@ -1,25 +1,30 @@
 <?php
-// /public/admin/event_edit.php
+// /public/admin/admin_edit_product.php
 require_once '../../classes/authService.php';
 require_once '../../classes/product_repository.php';
 session_start();
 
-$auth = new authService();
+// 1. Verifică rolul Admin
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: ../login.php");
+    header("Location: login_admin.php");
     exit;
 }
 
 $productRepo = new productRepository();
 $categories = $productRepo->getAllCategories();
 $id_products = (int)($_GET['id'] ?? 0);
-$event = null;
 $error = '';
-$isEdit = false;
+$pageTitle = 'Editează Produs';
 
-if ($id_products > 0) {
-    $event = $productRepo->getEventById($id_products);
-    $isEdit = true;
+// Verifică ID-ul și încarcă datele curente
+if ($id_products <= 0) {
+    header("Location: admin_home.php?status=id_missing");
+    exit;
+}
+$event = $productRepo->getEventById($id_products);
+if (!$event) {
+    header("Location: admin_home.php?status=not_found");
+    exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = [
         'category_id' => (int)$_POST['category_id'],
         'name' => trim($_POST['name']),
-        'code' => trim($_POST['code'] ?? 'N/A'),
+        'code' => trim($_POST['code']),
         'venue' => trim($_POST['venue']),
         'event_date' => trim($_POST['event_date']),
         'available_tickets' => (int)$_POST['available_tickets'],
@@ -36,32 +41,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'image' => trim($_POST['image'])
     ];
 
-    // 2. Execută INSERT sau UPDATE
-    if ($isEdit) {
-        $success = $productRepo->updateProduct($id_products, $data);
-    } else {
-        $success = $productRepo->createProduct($data);
-    }
+    // 2. Execută UPDATE
+    $success = $productRepo->updateProduct($id_products, $data);
 
     if ($success) {
-        header("Location: events_list.php?status=success");
+        header("Location: admin_home.php?status=updated");
         exit;
     } else {
-        $error = "Eroare la salvarea evenimentului.";
+        $error = "Eroare la salvarea modificărilor produsului.";
     }
+    // Reîmprospătează $event în caz de eroare
+    $event = array_merge($event, $_POST);
 }
 
-$pageTitle = ($isEdit ? 'Modifică' : 'Adaugă') . ' Eveniment';
-include '../header.php';
+include 'admin_header.php';
 ?>
 
     <h1 class="mb-4"><?php echo $pageTitle; ?></h1>
 
 <?php if ($error): ?><div class="alert alert-danger"><?php echo $error; ?></div><?php endif; ?>
 
-    <form method="POST" action="event_edit.php<?php echo $isEdit ? '?id=' . $id_products : ''; ?>">
+    <form method="POST" action="admin_edit_product.php?id=<?php echo $id_products; ?>">
         <div class="mb-3">
-            <label for="name" class="form-label">Nume Eveniment</label>
+            <label for="name" class="form-label">Nume Produs/Eveniment</label>
             <input type="text" class="form-control" name="name" value="<?php echo htmlspecialchars($event['name'] ?? ''); ?>" required>
         </div>
 
@@ -107,13 +109,10 @@ include '../header.php';
             <input type="text" class="form-control" name="image" value="<?php echo htmlspecialchars($event['image'] ?? 'assets/images/placeholder.webp'); ?>" required>
         </div>
 
-        <input type="hidden" name="code" value="<?php echo htmlspecialchars($event['code'] ?? uniqid()); ?>">
+        <input type="hidden" name="code" value="<?php echo htmlspecialchars($event['code'] ?? ''); ?>">
 
-        <button type="submit" class="btn btn-success btn-lg mt-3">Salvează Evenimentul</button>
-        <a href="events_list.php" class="btn btn-secondary mt-3">Anulează</a>
-
-        <button type="submit" class="btn btn-success btn-lg mt-3">Salvează Evenimentul</button>
-        <a href="events_list.php" class="btn btn-secondary mt-3">Anulează</a>
+        <button type="submit" class="btn btn-success btn-lg mt-3">Salvează Modificările</button>
+        <a href="admin_home.php" class="btn btn-secondary mt-3">Anulează</a>
     </form>
 
 <?php include '../footer.php'; ?>
