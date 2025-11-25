@@ -48,8 +48,8 @@ include 'header.php';
 
         <!-- TAB-URI categorii -->
         <ul class="nav nav-pills justify-content-center mb-4">
-            <li class="nav-item">
-                <a class="nav-link <?= $category_id === null ? 'active' : '' ?>" href="index.php">
+            <li class="all-events-li nav-item">
+                <a class="all-events-btn btn nav-link <?= $category_id === null ? 'active' : '' ?>" href="index.php">
                     Toate evenimentele:
                 </a>
             </li>
@@ -57,7 +57,7 @@ include 'header.php';
             <?php foreach ($categories as $cat): ?>
                 <li class="nav-item">
                     <a
-                            class="nav-link <?= ($category_id === (int)$cat['id_categories']) ? 'active' : '' ?>"
+                            class="tab-names nav-link <?= ($category_id === (int)$cat['id_categories']) ? 'active' : '' ?>"
                             href="index.php?category=<?= (int)$cat['id_categories'] ?>"
                     >
                         <?= htmlspecialchars($cat['name']) ?>
@@ -108,10 +108,10 @@ include 'header.php';
                     <?php if (!empty($events)): ?>
                         <?php foreach ($events as $event): ?>
                             <div class="col">
-                                <article class="card event-card h-100">
+                                <article class="card event-card h-100 shadow-sm">
                                     <div class="card-body">
                                         <h5 class="card-title event-card-title"><?= htmlspecialchars($event['name']); ?></h5>
-                                        <p class="event-meta mb-2">
+                                        <p class="card-text event-meta mb-2">
                                             <span class="d-block">
                                                 <strong>Locație</strong>: <?= htmlspecialchars($event['venue']); ?><br>
                                             </span>
