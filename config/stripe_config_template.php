@@ -1,9 +1,12 @@
 <?php
-define("STRIPE_SECRET_KEY", "INSERT_YOUR_OWN_STRIPE_SECRET_KEY_HERE");
-{
-    die(" Stripe nu este configurat. Va rugăm să puneți cheile voastre de test în stripe_config_template.php");
-}
-define("STRIPE_PUBLISHABLE_KEY", "INSERT_YOUR_OWN_PUBLISHABLE_KEY_HERE");
-define("STRIPE_CURRENCY", "eur");
-?>
 
+define('STRIPE_PUBLISHABLE_KEY', 'INLOCUITI_CU_CHEIA_PUBLICA_STRIPE_AICI');
+define('STRIPE_SECRET_KEY', 'INLOCUITI_CU_CHEIA_SECRETA_STRIPE_AICI');
+define('STRIPE_CURRENCY', 'ron');
+
+
+if (STRIPE_PUBLISHABLE_KEY === 'INLOCUITI_CU_CHEIA_PUBLICA_STRIPE_AICI') {
+    die('EROARE: Configurare Stripe incompleta. Va rugam inlocuiti placeholder-urile din fisierul de configurare.');
+}
+
+?>
