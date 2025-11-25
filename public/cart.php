@@ -124,6 +124,8 @@ include 'header.php';
                         </form>
                     </div>
                 <?php endforeach; ?>
+
+                <a href="index.php" class="btn btn-back-to-shopping">Continuă cumpărăturile</a>
             </div>
 
             <div class="col-lg-4">
