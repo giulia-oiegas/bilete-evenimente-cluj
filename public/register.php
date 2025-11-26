@@ -1,29 +1,20 @@
 <?php
-// /public/admin/register_admin.php
+require_once __DIR__ . '/../config/config.php';
+$pageTitle = 'Înregistrare Utilizator';
+require_once 'header.php';
+require_once '../classes/AuthService.php';
 
-require_once __DIR__ . '/../../config/config.php';
-require_once '../../classes/AuthService.php';
 
-session_start();
-
-$pageTitle = 'Înregistrare Administrator';
 $error = '';
 $success = '';
-
-// Redirecționează dacă e deja logat
-if (isset($_SESSION['user_role'])) {
-    header("Location: admin_home.php");
-    exit;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
-    $role = 'admin'; // <--- Rolul setat FIX
 
-    // Validare de bază
+    // Validare de baza
     if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
         $error = 'Toate câmpurile sunt obligatorii.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -33,13 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($password) < 6) {
         $error = 'Parola trebuie să aibă minim 6 caractere.';
     } else {
-        // Înregistrare
+        // inregistrare
         try {
+            //$db = new db_controller();
             $authService = new AuthService();
-            // Presupunem că registerUser setează rolul pe 'admin'
-            if ($authService->registerUser($username, $email, $password, $role)) {
-                $success = 'Înregistrare ADMIN reușită! Vă puteți autentifica acum.';
-                header("Refresh: 3; URL=login_admin.php");
+
+            if ($authService->registerUser($username, $email, $password)) {
+                $success = 'Înregistrare reușită! Vă puteți autentifica acum.';
+                // Redirectionare la pagina de login
+                header("Refresh: 3; URL=login.php");
             } else {
                 $error = 'Eroare la înregistrare. Este posibil ca numele de utilizator sau emailul să fie deja folosit.';
             }
@@ -52,40 +45,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-include '../header.php';
 ?>
 
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <h2 class="mb-4 text-center">Creare Cont Admin</h2>
-            <?php if ($error): ?><div class="alert alert-danger rounded-3"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
-            <?php if ($success): ?><div class="alert alert-success rounded-3"><?php echo htmlspecialchars($success); ?></div><?php endif; ?>
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <h2 class="mb-4 text-center">Creare Cont Nou</h2>
 
-            <div class="card shadow-lg">
-                <div class="card-body p-4">
-                    <form method="POST" action="register_admin.php">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Nume utilizator</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Parolă</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="confirm_password" class="form-label">Confirmă Parola</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 btn-lg">Înregistrare Admin</button>
-                        <p class="mt-3 text-center text-muted"><a href="login_admin.php" class="text-primary fw-bold">Autentifică-te ca Admin</a></p>
-                    </form>
-                </div>
+        <?php if ($error): ?>
+            <div class="alert alert-danger rounded-3" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> <?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+        <?php if ($success): ?>
+            <div class="alert alert-success rounded-3" role="alert">
+                <i class="bi bi-check-circle-fill"></i> <?php echo htmlspecialchars($success); ?>
+                Redirecționare la Login...
+            </div>
+        <?php endif; ?>
+
+        <div class="card shadow-lg rounded-3 border-0">
+            <div class="card-body p-4">
+                <form method="POST" action="register.php">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nume utilizator</label>
+                        <input type="text" class="form-control rounded-2" id="username" name="username" required
+                               value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control rounded-2" id="email" name="email" required
+                               value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Parolă</label>
+                        <input type="password" class="form-control rounded-2" id="password" name="password" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="confirm_password" class="form-label">Confirmă Parola</label>
+                        <input type="password" class="form-control rounded-2" id="confirm_password" name="confirm_password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 rounded-2 btn-lg">Înregistrare</button>
+
+                    <p class="mt-3 text-center text-muted">Ai deja cont? <a href="login.php" class="text-success fw-bold">Autentifică-te</a></p>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-<?php include '../footer.php'; ?>
+<?php
+echo '</main>';
+echo '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>';
+echo '</body></html>';
+?>
