@@ -16,10 +16,35 @@ $userRole = $_SESSION['user_role'] ?? 'guest';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cluj Events</title>
     <!-- bootstrap cdn -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" type="image/x-icon" href="../assets/favicon/favicon-cluj-events-v2.ico">
+
+    <style>
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background-color: #212529;
+                padding: 1rem;
+                margin-top: 0.5rem;
+                border-radius: 0.25rem;
+            }
+
+            .navbar-nav .nav-link {
+                color: #ffffff !important;
+                padding: 0.5rem 1rem;
+            }
+
+            .navbar-nav .nav-link:hover {
+                background-color: #343a40;
+                border-radius: 0.25rem;
+            }
+
+            .navbar-nav .nav-link.text-warning {
+                color: #ffc107 !important;
+            }
+        }
+    </style>
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -30,7 +55,7 @@ $userRole = $_SESSION['user_role'] ?? 'guest';
             </span>
 
             <!-- buton toggle pt mobil -->
-            <button class="navbar-toggler ms-auto" type="button"
+            <button class="navbar-toggler " type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#mainNavbar"
                     aria-controls="mainNavbar"
