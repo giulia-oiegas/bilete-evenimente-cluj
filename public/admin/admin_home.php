@@ -6,7 +6,7 @@ session_start();
 
 // 1. Verifică autentificarea și rolul Admin
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: login_admin.php");
+    header("Location: ../login.php");
     exit;
 }
 
