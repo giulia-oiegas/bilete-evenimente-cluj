@@ -36,7 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Înregistrare
         try {
             $authService = new AuthService();
-            // Presupunem că registerUser setează rolul pe 'admin'
+            // Presupunem că registerUser setează automat rolul pe 'user' sau că DB-ul folosește 'admin'
+            // Dacă Auth Service suportă rol, modifică apelul aici:
             if ($authService->registerUser($username, $email, $password, $role)) {
                 $success = 'Înregistrare ADMIN reușită! Vă puteți autentifica acum.';
                 header("Refresh: 3; URL=login_admin.php");
@@ -52,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-include '../header.php';
+include 'admin_header.php'; // Ajustează calea
 ?>
 
     <div class="row justify-content-center">
@@ -88,4 +89,4 @@ include '../header.php';
         </div>
     </div>
 
-<?php include '../footer.php'; ?>
+<?php include '../footer.php'; // Ajustează calea ?>

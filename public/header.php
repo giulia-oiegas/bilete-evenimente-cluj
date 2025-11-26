@@ -49,7 +49,7 @@ $userRole = $_SESSION['user_role'] ?? 'guest';
                 <ul class="navbar-nav ms-auto">
                     <?php if ($isLoggedIn): ?>
                         <?php if ($userRole === 'admin'): ?>
-                            <li class="nav-item"><a class="nav-link text-warning" href="admin/events_list.php">ADMIN</a></li>
+                            <li class="nav-item"><a class="nav-link text-warning" href="admin/admin_home.php">ADMIN</a></li>
                         <?php endif; ?>
                         <li class="nav-item"><a class="nav-link" href="my_account.php">Contul meu</a></li>
                         <li class="nav-item"><a class="nav-link" href="cart.php">Coș</a></li>
