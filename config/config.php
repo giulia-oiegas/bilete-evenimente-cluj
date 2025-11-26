@@ -9,7 +9,7 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 // Configurare Stripe
-define('STRIPE_SECRET_KEY', 'sk_test_VOTRA_CHEIE_SECRETA');
+//define('STRIPE_SECRET_KEY', 'sk_test_VOTRA_CHEIE_SECRETA');
 
 // Configurare Email
 define('CONTACT_EMAIL', 'contact@biletecluj.ro');

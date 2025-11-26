@@ -74,4 +74,78 @@ class orderService {
             return 0;
         }
     }
+
+    public function updateOrderStatus(int $id_order, string $status): bool
+    {
+        $query = "UPDATE ORDERS SET order_status = ? WHERE id_order = ?";
+        try {
+            return $this->db->execute($query, [$status, $id_order]);
+        } catch (Exception $e) {
+            error_log("updateOrderStatus error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getOrderDetails(int $id_order): ?array
+    {
+        $orderQuery = " SELECT
+            o.id_order,
+            o.id_user,
+            o.total_amount,
+            o.order_status,
+            o.created_at,
+            u.username,
+            u.email AS user_email
+            FROM ORDERS o
+            JOIN USERS u ON o.id_user = u.id
+            WHERE o.id_order = ?
+            LIMIT 1
+         ";
+        $orderRows  =$this->db->select($orderQuery, [$id_order]);
+
+        if (empty($orderRows)) {
+            return null;
+        }
+
+        $order = $orderRows[0];
+
+        $itemsQuery = " SELECT
+            oi.product_id,
+            oi.quantity,
+            oi.price_at_purchase,
+            p.name,
+            p.venue,
+            p.event_date
+            FROM ORDER_ITEMS oi
+            JOIN products p ON oi.product_id = p.id_products
+            WHERE oi.id_order = ?
+        ";
+        $items = $this->db->select($itemsQuery, [$id_order]);
+
+        return [
+            'order_id' => (int)$order['id_order'],
+            'user_id' => (int)$order['id_user'],
+            'user_name' => $order['username'],
+            'user_email' => $order['user_email'],
+            'total_amount' => (float)$order['total_amount'],
+            'order_status' => $order['order_status'],
+            'order_date' => $order['created_at'],
+            'items' => $items
+        ];
+    }
+
+    public function getOrdersByUser(int $id_user): array
+    {
+        $query = "SELECT 
+            id_order,
+            total_amount,
+            order_status,
+            created_at
+            FROM ORDERS
+            WHERE id_user = ?
+            ORDER BY created_at DESC
+        ";
+
+        return $this->db->select($query, [$id_user]);
+    }
 }
