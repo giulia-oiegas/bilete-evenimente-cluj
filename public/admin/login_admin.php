@@ -56,7 +56,7 @@ include 'admin_header.php';
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Login Admin</button>
                         </div>
-                        <p class="mt-3 text-center"><small>Nu ai cont de admin? <a href="register_admin.php">Înregistrează-te</a></small></p>
+                        <p class="mt-3 text-center"><small>Nu ai cont de admin? <a href="../login.php">Mergi la Login Clienți</a></small></p>
                     </form>
                 </div>
             </div>

@@ -38,7 +38,7 @@ $public_path = '../../';
                     <li class="nav-item">
                         <a class="nav-link active text-warning" href="admin_home.php">ADMIN</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout_admin.php">Logout</a></li>
                 <?php endif; ?>
             </ul>
         </div>
