@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gazdă: 127.0.0.1:3306
--- Timp de generare: nov. 21, 2025 la 04:21 PM
+-- Timp de generare: nov. 25, 2025 la 07:50 PM
 -- Versiune server: 9.1.0
 -- Versiune PHP: 8.3.14
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_order`),
   KEY `user_id` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Eliminarea datelor din tabel `orders`
@@ -81,7 +81,10 @@ INSERT INTO `orders` (`id_order`, `id_user`, `total_amount`, `order_status`, `st
 (9, 3, 110.00, 'pending', NULL, '2025-11-21 16:32:37'),
 (10, 3, 55.00, 'pending', NULL, '2025-11-21 16:34:59'),
 (11, 3, 55.00, 'pending', NULL, '2025-11-21 16:51:45'),
-(12, 3, 180.00, 'pending', NULL, '2025-11-21 17:47:28');
+(12, 3, 180.00, 'pending', NULL, '2025-11-21 17:47:28'),
+(13, 4, 360.00, 'pending', NULL, '2025-11-22 21:36:57'),
+(14, 3, 55.00, 'pending', NULL, '2025-11-24 15:04:04'),
+(15, 3, 220.00, 'pending', NULL, '2025-11-25 14:25:54');
 
 -- --------------------------------------------------------
 
@@ -99,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   PRIMARY KEY (`id_item`),
   KEY `order_id` (`id_order`),
   KEY `product_id` (`product_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Eliminarea datelor din tabel `order_items`
@@ -117,7 +120,10 @@ INSERT INTO `order_items` (`id_item`, `id_order`, `product_id`, `quantity`, `pri
 (9, 9, 1, 2, 55.00),
 (10, 10, 1, 1, 55.00),
 (11, 11, 1, 1, 55.00),
-(12, 12, 2, 1, 180.00);
+(12, 12, 2, 1, 180.00),
+(13, 13, 2, 2, 180.00),
+(14, 14, 1, 1, 55.00),
+(15, 15, 1, 4, 55.00);
 
 -- --------------------------------------------------------
 
@@ -132,25 +138,30 @@ CREATE TABLE IF NOT EXISTS `products` (
   `name` varchar(255) NOT NULL,
   `code` varchar(255) DEFAULT NULL,
   `venue` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `event_date` date NOT NULL,
+  `event_date` datetime NOT NULL,
   `available_tickets` int NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `description` text,
   `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_products`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Eliminarea datelor din tabel `products`
 --
 
 INSERT INTO `products` (`id_products`, `category_id`, `name`, `code`, `venue`, `event_date`, `available_tickets`, `price`, `description`, `image`) VALUES
-(1, 5, 'Meci Steaua vs Dinamo', 'FOT001', 'Arena Națională', '2025-12-15', 4989, 55.00, 'Derby-ul tradițional, Peluza Nord.', '/bilete-evenimente-cluj/assets/images/dinamo_vs_steaua.webp'),
-(2, 3, 'Concert Ed Sheeran', 'CON002', 'Cluj Arena', '2026-06-25', 1199, 180.00, 'Bilet normal, loc pe scaun.', '/bilete-evenimente-cluj/assets/images/Ed-Sheeran.jpg'),
-(3, 1, 'Spărgătorul de Nuci', 'PAT003', 'Sala Polivalentă', '2025-12-24', 349, 90.00, 'Spectacol de patinaj artistic pe gheață.', '/bilete-evenimente-cluj/assets/images/nutcracker.webp'),
-(4, 2, 'O Noapte Furtunoasă', 'TEA004', 'Teatrul Național', '2026-01-10', 150, 45.00, 'Comedie clasică I.L. Caragiale.', '/bilete-evenimente-cluj/assets/images/noapte_furtunoasa.webp'),
-(5, 4, 'Aida (Verdi)', 'OPE005', 'Opera Română', '2026-03-01', 80, 220.50, 'Loja centrală, premieră.', '/bilete-evenimente-cluj/assets/images/Opera-Aida-Verdi.jpg');
+(1, 5, 'Meci Steaua vs Dinamo', 'FOT001', 'Sala Polivalentă', '2025-11-25 21:30:00', 4984, 55.00, 'Derby-ul tradițional, Peluza Nord.', '/bilete-evenimente-cluj/assets/images/dinamo_vs_steaua.webp'),
+(2, 3, 'Concert Ed Sheeran', 'CON002', 'Cluj Arena', '2025-11-25 20:00:55', 1197, 180.00, 'Bilet normal, loc pe scaun.', '/bilete-evenimente-cluj/assets/images/Ed-Sheeran.jpg'),
+(3, 4, 'Spărgătorul de Nuci', 'PAT003', 'Opera Națională', '2025-12-24 19:00:00', 349, 90.00, 'Spectacol de patinaj artistic pe gheață.', '/bilete-evenimente-cluj/assets/images/nutcracker.webp'),
+(4, 2, 'O Noapte Furtunoasă', 'TEA004', 'Teatrul Național', '2026-01-10 17:00:00', 150, 45.00, 'Comedie clasică I.L. Caragiale.', '/bilete-evenimente-cluj/assets/images/noapte_furtunoasa.webp'),
+(5, 4, 'Aida (Verdi)', 'OPE005', 'Opera Națională', '2026-03-01 19:00:00', 80, 220.50, 'Loja centrală, premieră.', '/bilete-evenimente-cluj/assets/images/Opera-Aida-Verdi.jpg'),
+(6, 5, 'Meci CFR vs Rapid', '6925a783efd8d', 'Cluj Arena', '2025-05-12 21:30:00', 2000, 135.00, 'Meci de fotbal, echipa CFR versus echipa Rapid!', '/bilete-evenimente-cluj/assets/images/cfr.jpg'),
+(7, 3, 'Concert Charla\'s Dreams', '6925a88cee55d', 'Sala Polivalentă', '2026-12-04 22:00:00', 3000, 99.00, 'Concert a artistului Charla\'s Dreams', '/bilete-evenimente-cluj/assets/images/carla.jpg'),
+(8, 2, 'Romeo & Julieta', '6925ab73992ca', 'Teatrul Național', '2026-12-03 17:30:00', 400, 200.00, 'Opera lui Shakespeare prinde viață', '/bilete-evenimente-cluj/assets/images/romeo.png'),
+(9, 1, 'Festivalul Gheață și Artă: Gala', '6925ac5398495', 'Patinoar Fiesta Sport', '2026-10-02 20:00:00', 300, 140.00, 'O seară magică de spectacole pe gheață, îmbinând patinajul clasic cu elemente de dans contemporan.', '/bilete-evenimente-cluj/assets/images/patinaj.webp'),
+(10, 1, 'Cupa Tineretului: Patinaj Viteză', '6925acc3743f1', 'Patinoar Iulius Mall (Exterior)', '2026-02-02 16:00:00', 400, 110.00, 'Vino să susții viitorii campioni! Competiție de patinaj viteză pe distanțe scurte și lungi.', '/bilete-evenimente-cluj/assets/images/patinaj.avif');
 
 -- --------------------------------------------------------
 
@@ -167,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `tbl_cart` (
   PRIMARY KEY (`id_cart`),
   KEY `product_id` (`id_product`),
   KEY `member_id` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Eliminarea datelor din tabel `tbl_cart`
@@ -175,7 +186,8 @@ CREATE TABLE IF NOT EXISTS `tbl_cart` (
 
 INSERT INTO `tbl_cart` (`id_cart`, `id_product`, `id_user`, `quantity`) VALUES
 (1, 1, 1, 2),
-(2, 4, 1, 1);
+(2, 4, 1, 1),
+(24, 1, 3, 1);
 
 -- --------------------------------------------------------
 

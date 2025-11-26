@@ -1,122 +1,146 @@
-
 <?php
 // /public/index.php
 require_once '../classes/product_repository.php';
 require_once '../classes/authService.php';
+
 session_start();
 
 $productRepo = new productRepository();
-$auth = new authService();
+$auth        = new authService();
 
 // Preluare parametri de filtrare
-$search_term = $_GET['search'] ?? null;
-$category_id = (isset($_GET['cat_id']) && is_numeric($_GET['cat_id'])) ? (int)$_GET['cat_id'] : null;
+$search_term = $_GET['q'] ?? null;
+$category_id = (isset($_GET['category']) && is_numeric($_GET['category']))
+        ? (int)$_GET['category']
+        : null;
+$sort        = $_GET['sort'] ?? null;
 
 // Folosim metoda pentru filtrare
-$events = $productRepo->getFilteredProducts($category_id, $search_term);
-
+$events     = $productRepo->getFilteredProducts($category_id, $search_term, $sort);
 // Preluarea categoriilor pentru meniul de filtrare
 $categories = $productRepo->getAllCategories();
 
-$isLoggedIn = $auth->isLoggedIn();
-$userRole = $_SESSION['role'] ?? 'guest';
+include 'header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bilete Evenimente Cluj - Acasa</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-</head>
-<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">LOGO</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" href="index.php">Evenimente</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.php">Despre noi</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-                <?php if ($isLoggedIn): ?>
-                    <?php if ($userRole === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link text-warning" href="admin/events_list.php">ADMIN</a></li>
-                    <?php endif; ?>
-                    <li class="nav-item"><a class="nav-link" href="my_account.php">Contul meu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cart.php">Coș</a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
-                <?php else: ?>
-                    <li class="nav-item"><a class="nav-link" href="login.php">Login/Register</a></li>
+<main class="py-4">
+    <div class="container mt-4">
+        <!-- HERO + search -->
+        <section class="hero-section mb-4">
+            <h1 class="hero-title">Caută evenimente în Cluj-Napoca</h1>
+            <p class="hero-subtitle">
+                Teatru, operă, concerte, meciuri și spectacole pentru toate gusturile.
+            </p>
+            <form method="get" class="hero-search d-flex justify-content-center mt-4">
+                <input
+                        type="text"
+                        name="q"
+                        class="form-control hero-search-input me-2"
+                        placeholder="exemplu: teatru, opera, concert..."
+                        value="<?= htmlspecialchars($search_term ?? '') ?>"
+                >
+                <?php if ($category_id !== null): ?>
+                    <input type="hidden" name="category" value="<?= (int)$category_id ?>">
                 <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-</nav>
+                <button type="submit" class="hero-search-button"><strong>Caută</strong></button>
+            </form>
+        </section>
 
-<div class="container mt-4">
-    <h1 class="mb-4">Cauta spectacole in Cluj-Napoca</h1>
-
-    <form class="row g-3 mb-4" method="GET" action="index.php">
-        <div class="col-md-8">
-            <label for="search_input" class="visually-hidden">Câmp de căutare</label>
-            <input type="text" class="form-control" name="search" id="search_input" placeholder="Cauta artist / eveniment / locatie" value="<?php echo htmlspecialchars($search_term ?? ''); ?>">
-        </div>
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary w-100">Cauta</button>
-        </div>
-    </form>
-
-    <ul class="nav nav-tabs mb-4">
-        <li class="nav-item"><a class="nav-link <?php echo $category_id === null ? 'active' : ''; ?>" href="index.php">Toate</a></li>
-        <?php foreach ($categories as $cat): ?>
-            <li class="nav-item">
-                <a class="nav-link <?php echo $category_id === $cat['id_categories'] ? 'active' : ''; ?>"
-                   href="index.php?cat_id=<?php echo $cat['id_categories']; ?>&search=<?php echo htmlspecialchars($search_term ?? ''); ?>">
-                    <?php echo htmlspecialchars($cat['name']); ?>
+        <!-- TAB-URI categorii -->
+        <ul class="nav nav-pills justify-content-center mb-4">
+            <li class="all-events-li nav-item">
+                <a class="all-events-btn btn nav-link <?= $category_id === null ? 'active' : '' ?>" href="index.php">
+                    Toate evenimentele:
                 </a>
             </li>
-        <?php endforeach; ?>
-    </ul>
 
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="card p-3 mb-4">
-                <h5>Filtre</h5>
-            </div>
-        </div>
+            <?php foreach ($categories as $cat): ?>
+                <li class="nav-item">
+                    <a
+                            class="tab-names nav-link <?= ($category_id === (int)$cat['id_categories']) ? 'active' : '' ?>"
+                            href="index.php?category=<?= (int)$cat['id_categories'] ?>"
+                    >
+                        <?= htmlspecialchars($cat['name']) ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
 
-        <div class="col-lg-9">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <?php if (!empty($events)): ?>
-                    <?php foreach ($events as $event): ?>
-                        <div class="col">
-                            <div class="card h-100 shadow-sm">
-                                <img src="<?php echo htmlspecialchars($event['image'] ?? '/assets/placeholder.jpg'); ?>" class="card-img-top" alt="Imagine eveniment">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo htmlspecialchars($event['name']); ?></h5>
-                                    <p class="card-text mb-1">
-                                        *Locație:* <?php echo htmlspecialchars($event['venue']); ?><br>
-                                        *Data:* <?php echo date('d M Y, H:i', strtotime($event['event_date'])); ?>
-                                    </p>
-                                    <p class="fs-4 fw-bold text-success">
-                                        Preț: <?php echo number_format($event['price'], 2); ?> RON
-                                    </p>
-                                    <a href="event.php?id=<?php echo $event['id_products']; ?>" class="btn btn-primary w-100">Vezi detalii</a>
-                                </div>
-                            </div>
+        <!-- ROW: stânga filtre, dreapta evenimente -->
+        <div class="row">
+            <!-- Coloană FILTRE -->
+            <div class="col-lg-3 mb-4">
+                <div class="card filters-card p-3">
+                    <h5 class="mb-3">Filtre</h5>
+
+                    <form method="get">
+                        <!-- păstrăm căutarea curentă -->
+                        <input type="hidden" name="q" value="<?= htmlspecialchars($search_term ?? '') ?>">
+                        <!-- păstrăm categoria curentă, dacă e selectată -->
+                        <?php if ($category_id !== null): ?>
+                            <input type="hidden" name="category" value="<?= (int)$category_id ?>">
+                        <?php endif; ?>
+
+                        <div class="mb-3">
+                            <label for="sort" class="form-label">Ordonează după:</label>
+                            <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                                <option value="" <?= $sort === null || $sort === 'date_asc' ? 'selected' : '' ?>>
+                                    Data (crescător)
+                                </option>
+                                <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>
+                                    Data (descrescător)
+                                </option>
+                                <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>
+                                    Preț (crescător)
+                                </option>
+                                <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>
+                                    Preț (descrescător)
+                                </option>
+                            </select>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="col-12"><p class="alert alert-info">Nu au fost găsite evenimente.</p></div>
-                <?php endif; ?>
+                    </form>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<footer class="bg-light text-center text-lg-start mt-5"><div class="text-center p-3">...</div></footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script></html>
+            <!-- Coloană EVENIMENTE -->
+            <section class="col-lg-9">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <?php if (!empty($events)): ?>
+                        <?php foreach ($events as $event): ?>
+                            <div class="col">
+                                <article class="card event-card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title event-card-title"><?= htmlspecialchars($event['name']); ?></h5>
+                                        <p class="card-text event-meta mb-2">
+                                            <span class="d-block">
+                                                <strong>Locație</strong>: <?= htmlspecialchars($event['venue']); ?><br>
+                                            </span>
+                                            <span class="d-block">
+                                                <strong>Data</strong>: <?= date('d M Y, H:i', strtotime($event['event_date'])); ?>
+                                            </span>
+                                        </p>
+                                        <p class="event-price fs-5 fw-semibold mb-3">
+                                            Preț: <?= number_format($event['price'], 2); ?> RON
+                                        </p>
+                                        <a
+                                                href="event.php?id=<?= $event['id_products']; ?>"
+                                                class="btn btn-primary w-100"
+                                        >
+                                            Vezi detalii
+                                        </a>
+                                    </div>
+                                </article>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12">
+                            <p class="alert alert-info mb-0">Nu au fost găsite evenimente.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </section>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</main>
+
+<?php include 'footer.php'; ?>
