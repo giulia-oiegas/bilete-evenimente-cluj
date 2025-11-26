@@ -1,17 +1,167 @@
+:root {
+    --brown-main: #b37a4c;
+    --brown-dark: #8a5a32;
+}
+
 body {
-    background-color: floralwhite;
-    color: brown;
+    background-color: #fdf6ec;
+    color: #1f2933;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+
+.navbar-dark.bg-dark {
+    background-color: #1f2933;
+}
+
+.navbar {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
 }
 
 .navbar-brand {
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
 }
 
-.hero-placeholder {
-    padding: 4rem 2rem;
-    background: linear-gradient(135deg, #1f2833, #0b0c10);
-    border-radius: 1rem;
+.logo-navbar {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width: 991.98px) {
+    .navbar {
+        height: 60px;
+    }
+
+    .logo-navbar {
+        margin-top: 0;
+        height: 60px;
+    }
+}
+
+.navbar-dark .navbar-toggler {
+    border-color: transparent;
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-dark .navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* card evenimente*/
+.event-card {
+    background-color: #F7EDE6;
+    border: 1px solid #8B5A3C;
+    color: #5A3B2E;
+}
+
+.event-card:hover {
+    box-shadow: 0 10px 18px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+    transition: all 0.15s ease-in-out;
+}
+
+.event-card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    color: #5A3B2E;
+}
+
+.event-meta {
+    font-size: 0.85rem;
+    color: #7C5944;
+}
+
+.event-price {
+    color: #166534;
+}
+
+.event-card .btn-primary {
+    background-color: #7C5944;
+    border-color: #7C5944;
     color: #ffffff;
+    font-weight: 500;
 }
 
+.event-card .btn-primary:hover {
+    background-color: #73442B;
+    border-color: #73442B;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #7C5944;
+    color: white;
+}
+
+.all-events-btn {
+    background-color: #7C5944;
+    color: white;
+    border-radius: 999px;
+}
+
+.all-events-btn:hover {
+    background-color: #73442B;
+    color: white;
+}
+
+.tab-names {
+    color: #7C5944;
+}
+
+.tab-names:hover {
+    color: #5A3B2E;
+}
+
+/* hero */
+.hero-section {
+    background: linear-gradient(135deg, #ffffff, #fbe7c6);
+    border-radius: 1.5rem;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(15, 23, 42, 0.08);
+}
+
+.hero-title {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #5A3B2E;
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: #7C5944;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.hero-search-input {
+    max-width: 480px;
+    border-radius: 1rem;
+    border-color: #7A4B35;
+}
+
+.hero-search-button {
+    padding-inline: 1.75rem;
+    border-radius: 1rem;
+    border-color: #fdf6ec;
+    color: #7A4B35;
+    background-color: #fbe7c6;
+}
+
+
+/* filtre */
+.filters-card {
+    background-color: #FDF4EA;
+    border: 1px solid #E5D0C0;
+    color: #5A3B2E;}

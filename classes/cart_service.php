@@ -34,7 +34,7 @@ class cartService {
      * SELECT JOIN PRODUCTS pentru a afișa detalii (nume, preț).
      */
     public function getCartItems(int $id_user): array {
-        $query = "SELECT t.id_cart, t.quantity, p.name, p.price, p.available_tickets, p.id_products AS id_product
+        $query = "SELECT t.id_cart, t.quantity, p.name, p.available_tickets, p.price AS price_at_purchase, t.id_product
                   FROM TBL_CART t 
                   JOIN PRODUCTS p ON t.id_product = p.id_products 
                   WHERE t.id_user = ?";

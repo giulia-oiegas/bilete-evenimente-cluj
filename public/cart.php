@@ -98,7 +98,7 @@ if(empty($cart_items)) {
 
     <?php
 foreach ($cart_items as $item) {
-    $total_amount += $item['price'] * $item['quantity']; // totalul pe linie + totalul general
+    $total_amount += $item['price_at_purchase'] * $item['quantity']; // totalul pe linie + totalul general
 }
 include 'header.php';
 ?>
@@ -113,8 +113,8 @@ include 'header.php';
                 <?php foreach ($cart_items as $item): ?>
                     <div class="card mb-3 p-3">
                         <h5><?php echo htmlspecialchars($item['name']); ?></h5>
-                        <p>Preț unitar: <?php echo number_format($item['price'], 2); ?> RON</p>
-                        <p>Subtotal: <?php echo number_format($item['price'] * $item['quantity'], 2); ?> RON</p>
+                        <p>Preț unitar: <?php echo number_format($item['price_at_purchase'], 2); ?> RON</p>
+                        <p>Subtotal: <?php echo number_format($item['price_at_purchase'] * $item['quantity'], 2); ?> RON</p>
 
                         <form method="POST" class="d-flex align-items-center">
                             <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="0" max="<?php echo $item['available_tickets']; ?>" class="form-control" style="width: 80px;" required>
@@ -124,6 +124,8 @@ include 'header.php';
                         </form>
                     </div>
                 <?php endforeach; ?>
+
+                <a href="index.php" class="btn btn-back-to-shopping">Continuă cumpărăturile</a>
             </div>
 
             <div class="col-lg-4">

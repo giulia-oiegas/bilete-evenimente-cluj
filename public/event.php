@@ -5,11 +5,6 @@
 
 require_once __DIR__ . '/../config/config.php';
 
-require_once '../classes/db_controller.php';
-require_once '../classes/product_repository.php';
-require_once '../classes/cart_service.php';
-require_once '../classes/AuthService.php';
-
 session_start();
 
 $db = new db_controller();
@@ -19,10 +14,6 @@ $pageTitle = 'Eveniment Negăsit';
 $isDateValid = false;
 $formattedDate = 'Dată Necunoscută';
 $formattedTime = '--:--';
-
-$auth = new AuthService();
-$cartService = new CartService();
-
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id_product = (int)$_GET['id'];
@@ -39,7 +30,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 $isDateValid = true; // Data este validă
             } catch (Exception $e) {
                 error_log("Eroare la parsarea datei evenimentului {$id_product}: " . $e->getMessage());
-                //setare o valoare implicită
+
 
             }
         }
