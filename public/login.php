@@ -23,11 +23,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($usernameOrEmail) || empty($password)) {
         $error = "Toate câmpurile sunt obligatorii.";
     } elseif ($auth->loginUser($usernameOrEmail, $password)) {
-        // Autentificare reușită
-        header("Location: index.php"); // Redirecționare la home/index.php
-        exit;
+        // Autentificare reușită, verifica rolul
+        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+            //  Logare reușită, dar este admin - blochează-l și deloghează-l
+            $auth->logout();
+            $error = "Acces refuzat. Vă rugăm folosiți portalul de administrare.";
+
+        } else {
+            //  Logare reușită, este user normal - redirecționează la index
+            header("Location: index.php");
+            exit;
+        }
     } else {
-        $error = "Date de autentificare invalide."; // Eroare
+        $error = "Date de autentificare invalide."; // Eroare de parolă/username
     }
 }
 include 'header.php';
@@ -54,6 +62,14 @@ include 'header.php';
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                     <p class="mt-3 text-center"><small>Nu ai cont? <a href="register.php">Înregistrează-te</a></small></p>
+
+                    <hr class="my-3">
+                    <p class="mt-3 text-center">
+                        <small>
+                            Ești administrator? <a href="admin/login_admin.php">Autentificare Administrator</a>
+                        </small>
+                    </p>
+
                 </form>
             </div>
         </div>
