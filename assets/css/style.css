@@ -232,6 +232,82 @@ body {
     border-color: #73442B;
 }
 
+/*pagina de events*/
+.event-page {
+    max-width: 1120px;
+}
+
+.event-main-card {
+    border-radius: 1.5rem;
+    border: none;
+    overflow: hidden;
+    background-color: #F7EDE6;
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
+}
+
+.event-image-wrapper {
+    max-height: 320px;
+    overflow: hidden;
+}
+
+.event-image {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+}
+
+.event-meta-top {
+    font-size: 0.95rem;
+}
+
+.event-description-title {
+    color: #166534;
+    font-weight: 600;
+}
+
+.event-sidebar-card {
+    border-radius: 1.5rem;
+    border: none;
+    background-color: #FDF4EA;
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.15);
+    padding: 1.75rem 1.5rem;
+    top: 90%; /*pt sticky top, sa nu fie lipit de navbar */
+}
+
+.event-price-highlight {
+    font-size: 2.3rem;
+    color: #DC2626;
+    font-weight: 700;
+}
+
+.available-text {
+    color: #15803d;
+    font-weight: 600;
+}
+
+.event-sidebar-card .btn-primary {
+    background-color: #7C5944;
+    border-color: #7C5944;
+    color: white;
+    font-weight: 600;
+}
+
+.event-sidebar-card .btn-primary:hover {
+    background-color: #73442B;
+    border-color: #73442B;
+}
+
+.event-badge {
+    background-color: #7C5944;
+    color: white;
+    font-weight: 500;
+}
+
+.event-meta-top span strong {
+    color: #5A3B2E;
+    margin-right: 0.25rem;
+}
 /*footer*/
 footer {
     margin-bottom: 0;

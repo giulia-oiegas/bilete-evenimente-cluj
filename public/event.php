@@ -49,102 +49,121 @@ if (!$eventData): ?>
         <a href="index.php" class="btn btn-danger mt-3">Înapoi la Evenimente</a>
     </div>
 
-<?php else:
+<?php else: ?>
 
-    if (!$isDateValid) {
-        $formattedDate = 'Dată Necunoscută';
-        $formattedTime = '--:--';
-    }
-    ?>
-
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0 rounded-4 mb-4">
-                <!-- Imagine Mare (6.3) -->
-                <img src="<?php echo htmlspecialchars($eventData['image'] ?? 'https://placehold.co/900x500/CCCCCC/333333?text=Imagine+Eveniment'); ?>"
-                     class="card-img-top object-cover rounded-top-4"
-                     alt="<?php echo htmlspecialchars($eventData['name']); ?>"
-                     style="height: 400px;">
-
-                <div class="card-body p-5">
-                    <span class="badge bg-primary mb-3"><?php echo htmlspecialchars($eventData['category_name'] ?? 'Necunoscută'); ?></span>
-                    <h1 class="display-4 fw-bolder mb-3"><?php echo htmlspecialchars($eventData['name']); ?></h1>
-
-                    <div class="d-flex flex-wrap mb-4 text-muted">
-                        <span class="me-4"><i class="bi bi-calendar-event me-2"></i> **Dată:** <?php echo $formattedDate; ?></span>
-                        <span class="me-4"><i class="bi bi-clock me-2"></i> **Oră:** <?php echo $formattedTime; ?></span>
-                        <span class="me-4"><i class="bi bi-geo-alt me-2"></i> **Locație:** <?php echo htmlspecialchars($eventData['venue']); ?></span>
-                    </div>
-
-                    <hr>
-
-
-                    <h2 class="h4 mt-4 mb-3 text-success">Descriere</h2>
-                    <p class="lead text-dark"><?php echo nl2br(htmlspecialchars($eventData['description'] ?? 'Nu este disponibilă o descriere detaliată.')); ?></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <!-- formular de adaugare cos-->
-            <div class="card bg-light shadow-lg border-0 rounded-4 sticky-top" style="top: 20px;">
-                <div class="card-body p-4">
-                    <h3 class="h4 mb-4 text-center text-primary">Cumpără Bilete</h3>
-
-                    <div class="text-center mb-4">
-                        <span class="fs-1 fw-bolder text-danger"><?php echo number_format($eventData['price'], 2); ?> RON</span>
-                        <p class="text-muted small">Preț per bilet</p>
-                        <p class="text-success fw-bold"><i class="bi bi-ticket-perforated me-1"></i> <?php echo $eventData['available_tickets']; ?> Bilete disponibile</p>
-                    </div>
-
-                    <!--Formular adaugare cos-->
-                    <form action="cart.php" method="POST" id="add-to-cart-form">
-                        <input type="hidden" name="id_product" value="<?php echo $eventData['id_products']; ?>">
-                        <input type="hidden" name="action" value="add">
-
-                        <!-- Selectare tip bilet/zona-->
-                        <div class="mb-3">
-                            <label for="ticket_type" class="form-label fw-bold">Tip Bilet/Zona</label>
-                            <select class="form-select rounded-2" id="ticket_type" name="ticket_type">
-                                <option value="Standard" selected>Standard (Preț Unic)</option>
-                                <!-- Aici ar veni optiuni din tabela ZONES, daca ar exista -->
-                            </select>
+    <main class="py-4">
+        <div class="container mt-4 event-page">
+            <div class="row g-4">
+                <!-- col stanga: imagine + detalii -->
+                <div class="col-lg-8">
+                    <article class="card event-main-card">
+                        <div class="event-image-wrapper">
+                            <img
+                                    src="<?php echo htmlspecialchars($eventData['image'] ?? 'https://placehold.co/900x500/CCCCCC/333333?text=Imagine+Eveniment'); ?>"
+                                    alt="<?php echo htmlspecialchars($eventData['name']); ?>"
+                                    class="event-image"
+                            >
                         </div>
 
-                        <!--Cantitate-->
-                        <div class="mb-4">
-                            <label for="quantity" class="form-label fw-bold">Cantitate (max <?php echo $eventData['available_tickets']; ?>)</label>
-                            <input type="number"
-                                   class="form-control rounded-2"
-                                   id="quantity"
-                                   name="quantity"
-                                   value="1"
-                                   min="1"
-                                   max="<?php echo $eventData['available_tickets']; ?>"
-                                   required>
+                        <div class="card-body p-4 p-lg-5">
+                        <span class="badge event-badge mb-3">
+                            <?php echo htmlspecialchars($eventData['category_name'] ?? 'Necunoscută'); ?>
+                        </span>
+
+                            <h1 class="display-5 fw-bold mb-3">
+                                <?php echo htmlspecialchars($eventData['name']); ?>
+                            </h1>
+
+                            <div class="d-flex flex-wrap gap-3 mb-4 text-muted event-meta-top">
+                                <span>
+                                    <i class="bi bi-calendar-event me-2"></i>
+                                    <strong>Dată:</strong> <?php echo $formattedDate; ?>
+                                </span>
+                                <span>
+                                    <i class="bi bi-clock me-2"></i>
+                                    <strong>Oră:</strong> <?php echo $formattedTime; ?>
+                                </span>
+                                <span>
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    <strong>Locație:</strong> <?php echo htmlspecialchars($eventData['venue']); ?>
+                                </span>
+                            </div>
+
+                            <hr>
+
+                            <h2 class="h5 mt-3 mb-2 event-description-title">Descriere</h2>
+                            <p class="lead mb-0">
+                                <?php echo nl2br(htmlspecialchars($eventData['description'] ?? 'Nu este disponibilă o descriere detaliată.')); ?>
+                            </p>
                         </div>
-
-                        <?php if ($eventData['available_tickets'] > 0): ?>
-                            <!-- Buton 'Adaugă în coș' (6.4) -->
-                            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-2 shadow-sm">
-                                <i class="bi bi-cart-plus me-2"></i> Adaugă în Coș
-                            </button>
-                        <?php else: ?>
-                            <button type="button" class="btn btn-secondary btn-lg w-100 rounded-2" disabled>
-                                Bilete Epuizate
-                            </button>
-                        <?php endif; ?>
-
-                    </form>
+                    </article>
                 </div>
-            </div>
-        </div>
-    </div>
+
+                <!-- col dreapta: card cumpara bilete -->
+                <div class="col-lg-4">
+                    <aside class="card event-sidebar-card sticky-top">
+                        <div class="card-body">
+                            <h3 class="h5 mb-4 text-center">Cumpără Bilete</h3>
+
+                            <div class="text-center mb-4">
+                                <div class="event-price-highlight mb-1">
+                                    <?php echo number_format($eventData['price'], 2); ?> RON
+                                </div>
+                                <p class="text-muted small mb-1">Preț per bilet</p>
+                                <p class="available-text mb-0">
+                                    <?php echo (int)$eventData['available_tickets']; ?> bilete disponibile
+                                </p>
+                            </div>
+
+                            <!-- formular adaugare în coș -->
+                            <form action="cart.php" method="POST" id="add-to-cart-form">
+                                <input type="hidden" name="id_product" value="<?php echo $eventData['id_products']; ?>">
+                                <input type="hidden" name="action" value="add">
+
+                                <div class="mb-3">
+                                    <label for="ticket_type" class="form-label fw-bold">Tip Bilet / Zonă</label>
+                                    <select class="form-select rounded-2" id="ticket_type" name="ticket_type">
+                                        <option value="Standard" selected>Standard (Preț unic)</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="quantity" class="form-label fw-bold">
+                                        Cantitate (max <?php echo (int)$eventData['available_tickets']; ?>)
+                                    </label>
+                                    <input
+                                            type="number"
+                                            class="form-control rounded-2"
+                                            id="quantity"
+                                            name="quantity"
+                                            value="1"
+                                            min="1"
+                                            max="<?php echo (int)$eventData['available_tickets']; ?>"
+                                            required
+                                    >
+                                </div>
+
+                                <?php if ($eventData['available_tickets'] > 0): ?>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-2 shadow-sm">
+                                        <i class="bi bi-cart-plus me-2"></i> Adaugă în Coș
+                                    </button>
+                                <?php else: ?>
+                                    <button type="button" class="btn btn-secondary btn-lg w-100 rounded-2" disabled>
+                                        Bilete epuizate
+                                    </button>
+                                <?php endif; ?>
+                            </form>
+                        </div>
+                    </aside>
+                </div>
+            </div><!-- /.row -->
+
+        </div><!-- /.container -->
+    </main>
 
 <?php endif; ?>
 
+
 <?php
-echo '</main>';
-echo '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>';
-echo '</body></html>';
+include 'footer.php';
 ?>
