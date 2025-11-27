@@ -26,7 +26,7 @@ include 'header.php';
             <!--Irina-->
             <div class="col-12 col-sm-6 col-lg-4">
                 <div class="team-member text-center">
-                    <img src="../assets/images/patinaj.webp.jpg"
+                    <img src="../assets/images/irina.jpg"
                          alt="Irina..." class="team-photo mb-3">
                     <h3 class="h5 mb-0">Irina</h3>
                 </div>
