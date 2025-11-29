@@ -9,6 +9,14 @@ $cartService = new CartService();
 $message = '';
 $total_amount = 0;
 
+//mesaj venit din cart_service
+if(!empty($_SESSION['cart_error'])) {
+    $message = "<div class='alert alert-danger mb-3'>"
+             . htmlspecialchars($_SESSION['cart_error']) .
+            "</div>";
+    unset($_SESSION['cart_error']);
+}
+
 // Verificare Logare
 if (!$auth->isUserLoggedIn()) {
     // Dacă nu este logat, redirecționează la login
@@ -34,9 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Succes: Redirecționează imediat (POST-Redirect-GET)
                 header("Location: cart.php?status=added");
                 exit;
-            } else {
-                //   mesaj de eroare
-                $message = "<div class='alert alert-danger'>Eroare la adăugare.</div>";
             }
         }
     }

@@ -4,35 +4,44 @@ include 'header.php';
 
 <main class="py-4">
     <div class="container mt-4">
-        <h1>Despre noi</h1>
+        <h1 class="about-title">Despre noi</h1>
 
-        <p class="mt-3">
+        <h6 class="about-subtitle mt-3">
             Aplicația <strong>Cluj Events</strong> a fost realizată ca proiect pentru disciplina PHP OOP,
             având ca scop facilitarea achiziției de bilete la evenimente din Cluj-Napoca
             (teatru, operă, concerte, patinaj artistic etc.).
-        </p>
+        </h6>
 
-        <h3 class="mt-4">Echipa</h3>
-        <div class="row mt-3">
-            <div class="col-md-4">
-                <div class="card p-3 mb-3">
-                    <h5>Giulia ...</h5>
-                    <p>Rol: ...</p>
+        <h3 class="team-title mt-4">Echipa</h3>
+        <div class="row g-4">
+            <!--Giulia-->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="team-member text-center">
+                    <img src="../assets/images/pozaGiulia.jpg"
+                    alt="Giulia..." class="team-photo mb-3">
+                    <h3 class="h5 mb-0">Giulia</h3>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card p-3 mb-3">
-                    <h5>Irina ...</h5>
-                    <p>Rol: ...</p>
+
+            <!--Irina-->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="team-member text-center">
+                    <img src="../assets/images/irina.jpg"
+                         alt="Irina..." class="team-photo mb-3">
+                    <h3 class="h5 mb-0">Irina</h3>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card p-3 mb-3">
-                    <h5>Vanesa ...</h5>
-                    <p>Rol: ...</p>
+
+            <!--Vanesa-->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="team-member text-center">
+                    <img src="../assets/images/vanesa.jpg"
+                         alt="Vanesa..." class="team-photo mb-3">
+                    <h3 class="h5 mb-0">Vanesa</h3>
                 </div>
             </div>
         </div>
+
     </div>
 </main>
 

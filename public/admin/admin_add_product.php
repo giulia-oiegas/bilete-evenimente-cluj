@@ -42,8 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 include 'admin_header.php';
 ?>
-
-    <h1 class="mb-4"><?php echo $pageTitle; ?></h1>
+<main class="py-4 admin-add-main">
+    <h2 class="header-add-admin mb-4"><?php echo $pageTitle; ?></h2>
 
 <?php if ($error): ?><div class="alert alert-danger"><?php echo $error; ?></div><?php endif; ?>
 
@@ -98,5 +98,5 @@ include 'admin_header.php';
         <button type="submit" class="btn btn-success btn-lg mt-3">Adaugă Produs</button>
         <a href="admin_home.php" class="btn btn-secondary mt-3">Anulează</a>
     </form>
-
+</main>
 <?php include '../footer.php'; ?>

@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <main class="py-4">
     <div class="container mt-4">
-        <h1>Contact</h1>
+        <h1 class="title-contact">Contact</h1>
 
         <?php if($successMessage): ?>
             <div class="alert alert-success"><?= htmlspecialchars($successMessage) ?></div>
@@ -38,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="alert alert-danger"><?= htmlspecialchars($errorMessage) ?></div>
         <?php endif; ?>
 
-        <form method="post" class="mt-3">
+        <form method="post" class="form mt-3">
             <div class="mb-3">
                 <label class="form-label">Nume</label>
                 <input type="text" name="name" class="form-control" required value="<?= htmlspecialchars($name ?? '')?>">
@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <textarea name="message" rows="5" class="form-control" required><?= htmlspecialchars($message ?? '') ?></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Trimite mesaj</button>
+            <button type="submit" class="btn btn-primary btn-contact">Trimite mesaj</button>
         </form>
     </div>
 </main>

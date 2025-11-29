@@ -16,9 +16,9 @@ $pageTitle = 'Gestionare Evenimente';
 include 'admin_header.php'; // Ajustează calea
 ?>
 
-    <h1 class="mb-4">Panou Administrator: <?php echo $pageTitle; ?></h1>
+    <h3 class="header-admin mb-4">Panou Administrator: <?php echo $pageTitle; ?></h3>
 
-    <p><a href="admin_add_product.php" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i> Adaugă Eveniment Nou</a></p>
+    <p><a href="admin_add_product.php" class="btn btn-success add-admin"><i class="bi bi-plus-circle-fill"></i> Adaugă Eveniment Nou</a></p>
 
 <?php if (isset($_GET['status'])): ?>
     <?php if ($_GET['status'] == 'deleted'): ?>
@@ -32,6 +32,7 @@ include 'admin_header.php'; // Ajustează calea
     <?php endif; ?>
 <?php endif; ?>
 
+<main class=" main-home py-4">
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -61,5 +62,6 @@ include 'admin_header.php'; // Ajustează calea
         <?php endforeach; ?>
         </tbody>
     </table>
+</main>
 
 <?php include '../footer.php'; // Ajustează calea ?>

@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
-        <h2 class="mb-4 text-center">Creare Cont Nou</h2>
+        <h2 class="header-register mb-4 text-center">Creare Cont Nou</h2>
 
         <?php if ($error): ?>
             <div class="alert alert-danger rounded-3" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> <?php echo htmlspecialchars($error); ?></div>
@@ -93,7 +93,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <?php
-echo '</main>';
-echo '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>';
-echo '</body></html>';
+require_once 'footer.php';
 ?>
