@@ -106,7 +106,13 @@ include 'header.php';
             <section class="col-lg-9">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <?php if (!empty($events)): ?>
-                        <?php foreach ($events as $event): ?>
+                        <?php foreach ($events as $event):
+                            //Logica de stoc
+                            $tickets_available = $event['available_tickets'] ?? 0;
+                            $stock_class = ($tickets_available > 0) ? 'text-success' : 'text-danger';
+                            $stock_text = ($tickets_available > 0) ? 'În stoc' : 'Stoc epuizat';
+
+                            ?>
                             <div class="col">
                                 <article class="card event-card h-100 shadow-sm">
                                     <div class="card-body">
@@ -119,6 +125,13 @@ include 'header.php';
                                                 <strong>Data</strong>: <?= date('d M Y, H:i', strtotime($event['event_date'])); ?>
                                             </span>
                                         </p>
+
+                                              <!-- Vizualizare disponibilitate stoc -->
+                                        <p class="small fw-bold mb-1 <?= $stock_class ?>">
+                                            <i class="bi bi-ticket-perforated me-1"></i>
+                                            <?= $stock_text ?>
+                                        </p>
+
                                         <p class="event-price fs-5 fw-semibold mb-3">
                                             Preț: <?= number_format($event['price'], 2); ?> RON
                                         </p>
